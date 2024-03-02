@@ -1,0 +1,33 @@
+main CALL 10 OUT HALT
+:main
+10 read_int JMP :ret
+1 factorial CALL
+write_int CALL
+
+:read_int
+IN DUB
+10 SUB JEQ read_end
+48 SUB DUP 10 SUB read_int JLT
+HALT
+
+:read_end
+DROP
+1 SETFP
+:loop1
+SWAP
+DUB 10 SUB ret JEQ
+GETFP MUL
+GETFP 10 MUL SETFP SUM JMP loop1
+
+:factorial ; num i ip
+ROT ROT ; ip num i
+1 ADD SETFP ; ip mun
+DUB GETFP CMP 1 ADD JNQ rec
+SWAP 0 RETN
+:rec
+factorial CALL MUL
+
+
+
+
+
