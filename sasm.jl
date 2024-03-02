@@ -75,7 +75,7 @@ function first_pass(code)
     return machine_code
 end
 function run_sasm(instructions, MEM_SIZE)
-    M = [0 for _ ∈ 1:MEM_SIZE]
+    M = Array{BigInt}([0 for _ ∈ 1:MEM_SIZE])
     current = 256
     for instruction ∈ instructions
         M[current] = instruction
@@ -168,7 +168,7 @@ function run_sasm(instructions, MEM_SIZE)
             SP-=1
             IP+=1
         elseif M[IP] == -22
-            IP = M[SP]
+            IP = M[SP]-1
             SP+=1
             IP+=1
         elseif M[IP] == -23
