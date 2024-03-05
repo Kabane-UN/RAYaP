@@ -5,17 +5,17 @@ pend JMP
 
 :main
 10 read_int JMP :ret DROP DUP end JEQ DUP 1 SUB end JEQ
-1 SWAP 1 factorial CALL ; factorial call (res, number, counter)
+1 SWAP 1 factorial CALL ; factorial
+; call (res, number, counter)
 :pend
 0 SETFP write_int JMP :ret2 ; write_int call (number)
 0 RETN ; return 
 
-
-
 :read_int ; read number loop
 IN DUP ; ... -> char char
 10 SUB read_end JEQ ; if char \n -> char goto: read_end
-48 SUB DUP 10 SUB read_int JLT ; if number -> number goto: read_int
+48 SUB DUP 10 SUB read_int JLT ; if number ->
+; number goto: read_int
 0 HALT ; return if NaN
 
 :read_end ; sum numbers while not oef
@@ -25,12 +25,14 @@ DROP ; ... \n -> ...
 SWAP ; num1 num2 -> num2 num1
 DUP 10 SUB ret JEQ ; if eof -> return
 GETFP MUL ; num -> num*10^n
-GETFP 10 MUL SETFP ADD loop1 JMP  ; n++, sum num -> sum+num, goto next
+GETFP 10 MUL SETFP ADD loop1 JMP  ; n++, sum num ->
+; sum+num, goto next
 
 :factorial ; res num counter ip
 ROT ROT ;  -> ip num counter
 1 ADD SETFP ; ip nun counter -> ip nun, FP = ++counter
-DUP GETFP CMP rec JNE ; ip num -> ip num, goto rec if new_counter < num
+DUP GETFP CMP rec JNE ; ip num -> ip num, goto
+; rec if new_counter < num
 ROT ; res ip num -> ip num res
 GETFP MUL ; ip num res -> ip num res*(new_counter)
 SWAP DROP ; -> ip new_res
@@ -39,8 +41,10 @@ SWAP 0 RETN ; -> new_res ip
 :rec
 ROT ; res ip num -> ip num res
 GETFP MUL ; ip num res -> ip num res*(new_counter)
-SWAP GETFP ; ip num new_res -> ip new_res  num new_counter
-factorial CALL ; -> ip new_res  num new_counter newip, CALL RECUR
+SWAP GETFP ; ip num new_res -> ip new_res
+;  num new_counter
+factorial CALL ; -> ip new_res
+;  num new_counter newip, CALL RECUR
 ; -> ip new_res
 SWAP ; -> new_res ip
 0 RETN ; -> new_res
@@ -48,12 +52,16 @@ SWAP ; -> new_res ip
 :write_int
 GETFP 1 ADD SETFP ; SETFP++
 DUP 10 MOD ; num -> num num[end]
-DUP ROT SWAP ; num num[end] -> num[end] num[end] num ->  num[end] num num[end]
-SUB 10 DIV DUP print JEQ ; -> num[end] num[0:end], goto loop if num[0:end] != 0 else goto print
+DUP ROT SWAP ; num num[end] -> num[end] num[end] num
+;  ->  num[end] num num[end]
+SUB 10 DIV DUP print JEQ ; -> num[end] num[0:end], 
+; goto loop if num[0:end] != 0 else goto print
 write_int JMP 
 :print
 DROP ; num[last] or 0 -> ...
-DUP 48 ADD OUT GETFP 1 SUB DUP SETFP print JNE ; num[i] -> num[i] num[i]+48>>cout -> num[i], goto loop if --SETFP != 0 else return
+DUP 48 ADD OUT GETFP 1 SUB DUP SETFP print JNE ; num[i] -> 
+; num[i] num[i]+48>>cout -> num[i],
+; goto loop if --SETFP != 0 else return
 10 OUT DROP ret2 JMP
 
 
